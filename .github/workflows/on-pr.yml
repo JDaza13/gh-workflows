@@ -1,0 +1,20 @@
+name: Pull Request Actions
+on:
+  pull_request:
+    types: opened
+jobs:
+  lint-n-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4.1.7
+      - name: Install NodeJS
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: 🧹 Lint
+        run: npm run lint
+      - name: 🧪 Run tests
+        run: npm test
