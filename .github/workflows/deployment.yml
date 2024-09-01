@@ -1,5 +1,10 @@
 name: Deploy Project
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - master
+      - "release/**"
+  workflow_dispatch:
 jobs:
   lint-n-test:
     runs-on: ubuntu-latest
