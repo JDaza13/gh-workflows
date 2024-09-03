@@ -21,7 +21,7 @@ jobs:
         run: npm run lint
       - name: 🧪 Run tests
         run: npm test
-  deploy:
+  build:
     needs: lint-n-test
     runs-on: ubuntu-latest
     steps:
@@ -33,12 +33,22 @@ jobs:
           node-version: 18
       - name: Install dependencies
         run: npm ci
-      - name: 🏢 Build Project
+      - name: 🏢 Build project
         run: npm run build
       - name: 📤 Upload artifacts
         uses: actions/upload-artifact@v4.4.0
         with:
           name: dist-files
-          path: |
-            dist
-            package.json
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Download artifacts
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: dist-files
+      - name: Output contents
+        run: ls
+      - name: Deploy
+        run: echo "Deploying... (I am a mock)"
